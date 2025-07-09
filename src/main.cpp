@@ -10,6 +10,6 @@ int main() {
     while (true) {
         sender.set_value(x);
         x += 0.25;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }

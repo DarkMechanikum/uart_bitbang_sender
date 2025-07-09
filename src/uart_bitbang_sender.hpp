@@ -8,7 +8,7 @@
 
 class BitBangUartSender {
 public:
-    BitBangUartSender(const std::string& chipname, unsigned int tx_pin, unsigned int baudrate = 9600);
+    BitBangUartSender(const std::string& chipname, unsigned int tx_pin, unsigned int baudrate = 600);
     ~BitBangUartSender();
 
     void set_value(double value);
