@@ -7,14 +7,29 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GPIOD REQUIRED IMPORTED_TARGET libgpiod)
 
-# Add the executable from the src/ directory
-add_executable(uart_bitbang_sender
-    src/main.cpp
+# Create the uartbitbangsender shared library
+add_library(uartbitbangsender SHARED
     src/uart_bitbang_sender.cpp
 )
 
-# Include headers from src/
-target_include_directories(uart_bitbang_sender PRIVATE src ${GPIOD_INCLUDE_DIRS})
+target_include_directories(uartbitbangsender
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC ${GPIOD_INCLUDE_DIRS}
+)
 
-# Link with libgpiod
-target_link_libraries(uart_bitbang_sender PRIVATE PkgConfig::GPIOD)
+target_link_libraries(uartbitbangsender
+    PUBLIC PkgConfig::GPIOD
+)
+
+# (Optional) Add an executable for testing or demonstration
+add_executable(uart_bitbang_sender_demo
+    src/main.cpp
+)
+
+target_include_directories(uart_bitbang_sender_demo
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(uart_bitbang_sender_demo
+    PRIVATE uartbitbangsender
+)
